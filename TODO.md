@@ -1,0 +1,3 @@
+- [x] Fix the CSS link path in details.html (add "/" after "..")
+- [x] Fix the JS script paths in details.html (add "/" after ".." for cars.js and details.js)
+- [x] Fix the malformed car object in cars.js (define as array with proper object)

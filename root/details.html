@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Details - Mcvid Cars</title>
+
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+    /><link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+<style>
+  .back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  background: #111;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  transition: 0.3s ease;
+}
+
+.back-button i {
+  font-size: 16px;
+}
+.details-page {
+  margin-top: 80px; /* adjust if navbar height is different */
+}
+
+.back-button:hover {
+  background: #333;
+}
+
+</style>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+
+  <body>
+    <header class="navbar" id="navbar">
+      <div class="menu-btn" id="menuBtn">
+        <i class="ri-menu-line menu-icon"></i>
+        <span class="menu-text">MENU</span>
+      </div>
+
+      <div class="nav-logo"><i class="fas fa-car-side"></i>Mcvid Cars</div>
+
+      <div class="close-btn" id="closeBtn"><i class="ri-close-line"></i></div>
+    </header>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- SLIDE MENU -->
+    <nav class="side-menu" id="sideMenu">
+      <ul>
+        <li style="--i: 1"><a href="index.html">Home</a></li>
+        <li style="--i: 2"><a href="catalog.html">Catalog</a></li>
+        <li style="--i: 3"><a href="about.html">About</a></li>
+        <li style="--i: 4"><a href="contact.html">Contact</a></li>
+        -
+        
+    </nav>
+    <main class="details-page">
+      <a href="catalog.html" class="back-button">
+  <i class="fas fa-arrow-left"></i> Back to Catalog
+</a>
+
+      <section class="details-container">
+        <!-- LEFT: IMAGE GALLERY -->
+        <div class="details-gallery"> 
+          <img id="mainImage" class="main-image" src="" alt="Car Image" />
+
+          <div id="thumbContainer" class="thumbs"></div>
+        </div>
+
+        <!-- RIGHT: DETAILS -->
+        <div class="details-info">
+          <h1 id="carName"></h1>
+
+          <div class="price-type">
+            <h2 id="carPrice"></h2>
+            <span id="carType" class="type-badge"></span>
+          </div>
+
+          <!-- SPECS -->
+          <h3>Specifications</h3>
+          <table class="spec-table">
+            <tbody id="specTable"></tbody>
+          </table>
+
+          <!-- FEATURES -->
+          <h3>Features</h3>
+          <ul id="featuresList" class="features-list"></ul>
+
+          <!-- CONTACT BUTTONS -->
+          <div class="contact-buttons">
+            <a id="waBtn" class="contact-btnWa"
+              ><i class="ri-whatsapp-fill"></i> WhatsApp</a
+            >
+            <a id="callBtn" class="contact-btnCa"
+              ><i class="ri-phone-fill"></i> Call</a
+            >
+            <a id="emailBtn" class="contact-btnEm"
+              ><i class="ri-mail-fill"></i> Email</a
+            >
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FLOATING CONTACT BAR (mobile only) -->
+    <div class="floating-contact">
+      <a id="floatWA"><i class="ri-whatsapp-fill"></i></a>
+      <a id="floatCall"><i class="ri-phone-fill"></i></a>
+      <a id="floatMail"><i class="ri-mail-fill"></i></a>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-container">
+        <!-- Brand + Motto -->
+        <div class="footer-brand">
+          <h2><i class="fas fa-car-side"></i> Mcvid Cars</h2>
+          <p class="motto">“Drive Your Dream.”</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="footer-links">
+          <h3><i class="fas fa-list"></i> Pages</h3>
+          <ul>
+            <li>
+              <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            </li>
+            <li>
+              <a href="catalog.html"><i class="fas fa-th"></i> Catalog</a>
+            </li>
+            <li>
+              <a href="about.html"
+                ><i class="fas fa-info-circle"></i> About Us</a
+              >
+            </li>
+            <li>
+              <a href="contact.html"
+                ><i class="fas fa-envelope-open-text"></i> Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Contacts -->
+        <div class="footer-contact">
+          <h3><i class="fas fa-headset"></i> Contact</h3>
+          <ul>
+            <li>
+              <a href="https://wa.me/256700000000" target="_blank">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+              </a>
+            </li>
+            <li>
+              <a href="tel:+256700000000">
+                <i class="fas fa-phone-alt"></i> Call Us
+              </a>
+            </li>
+            <li>
+              <a href="mailto:info@mcvidcars.com">
+                <i class="fas fa-envelope"></i> Email
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Socials -->
+        <div class="footer-socials">
+          <h3><i class="fas fa-share-alt"></i> Follow Us</h3>
+          <ul>
+            <li>
+              <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-tiktok"></i> TikTok</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© <span id="year"></span> Mcvid Cars • All Rights Reserved</p>
+        <p>Website Developed by <strong>Tazon Inc.</strong></p>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+    IPTS -->
+    <script src="../js/cars.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/details.js"></script>
+  </body>
+</html>

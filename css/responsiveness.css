@@ -1,0 +1,8 @@
+@media (max-width: 768px) {
+  .nav-logo {
+    font-size: 20px;
+  }
+  .menu-text {
+    font-size: 16px;
+  }
+}
