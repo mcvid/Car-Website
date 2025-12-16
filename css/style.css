@@ -7,13 +7,21 @@
   --font-body: "Inter", sans-serif;
 }
 
-body {
+/* GLOBAL RESET */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: var(--font-body);
   background: var(--white);
   color: #1a1a1a;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased; /* Premium rendering */
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  width: 100%;
 }
 
 h1,
@@ -1143,9 +1151,10 @@ textarea {
 
 /* BANNERS */
 .banner {
+  width: 90%; /* Prevent hitting edge */
+  max-width: 400px; /* Limit max width */
+  margin: 30px auto 25px auto; /* Center with margin auto */
   padding: 30px;
-  margin-top: 30px;
-  margin-bottom: 25px;
   border-radius: 20px; /* More rounded as per image */
   font-family: Arial, sans-serif;
   display: flex;
