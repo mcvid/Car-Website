@@ -10,7 +10,7 @@ const cars = [
 
   {
     id: "gwagon2017",
-    name: "Mercedes G-Wagon AMG",
+    name: "Mercedes-Benz G-Wagon",
     priceUGX: "550,000,000",
     priceUSD: "145,000",
     image: "../images/Cars/gwagon2017/one.webp",
@@ -19,16 +19,16 @@ const cars = [
 
   {
     id: "hilux2019",
-    name: "Range Rover Sport",
-    priceUGX: "480,000,000",
-    priceUSD: "128,000",
+    name: "Toyota Hilux 2019",
+    priceUGX: "121,000,000",
+    priceUSD: "33,000",
     image: "../images/Cars/hilux2019/one.jpg",
     featured: true,
   },
 
   {
     id: "seinta",
-    name: "Toyota Mark X",
+    name: "Toyota Sienta",
     priceUGX: "48,000,000",
     priceUSD: "12,500",
     image: "../images/Cars/Seinta/one.jpg",
@@ -44,25 +44,25 @@ const cars = [
   },
   {
     id: "fortuner",
-    name: "Toyota  Fortuner",
-    priceUGX: "48,000,000",
-    priceUSD: "12,500",
+    name: "Toyota Fortuner",
+    priceUGX: "180,000,000",
+    priceUSD: "47,000",
     image: "../images/Cars/Fortuner/one.jpg",
     featured: true,
   },
   {
     id: "harrier",
     name: "Toyota Harrier",
-    priceUGX: "48,000,000",
-    priceUSD: "12,500",
+    priceUGX: "95,000,000",
+    priceUSD: "26,000",
     image: "../images/Cars/harrier2018/one.jpg",
     featured: true,
   },
   {
     id: "noah2014",
-    name: "Toyota Mark X",
-    priceUGX: "48,000,000",
-    priceUSD: "12,500",
+    name: "Toyota Noah 2014",
+    priceUGX: "51,000,000",
+    priceUSD: "14,000",
     image: "../images/Cars/noah2014/one.jpg",
     featured: true,
   },

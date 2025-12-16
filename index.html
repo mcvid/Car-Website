@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mcvid Cars</title>
 
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <!-- Icon Packs -->
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
@@ -26,7 +31,10 @@
         <span class="menu-text">MENU</span>
       </div>
 
-      <div class="nav-logo"><i class="fas fa-car-side"></i>Mcvid Cars</div>
+      <div class="nav-logo">
+        <img src="images/modern-logo.svg" alt="Car Logo" class="nav-brand-icon">
+        Mcvid Cars
+      </div>
 
       <div class="close-btn" id="closeBtn"><i class="ri-close-line"></i></div>
     </header>
@@ -51,12 +59,12 @@
     </a>
     <section class="hero">
       <!-- SLIDES -->
-      <div class="hero-slideshow">
-        <img src="/images/backgrounds/bg 2.jpg" class="slide active" />
-        <img src="/images/backgrounds/bg 1.jpg" class="slide" />
-        <img src="/images/backgrounds/bg 3.avif" class="slide" />
-      </div>
-
+    <div class="container">
+  <div class="hero-slideshow">
+    <img src="/images/backgrounds/bg 2.jpg" class="slide active" />
+    <img src="/images/backgrounds/bg 1.jpg" class="slide" />
+    <img src="/images/backgrounds/bg 3.avif" class="slide" />
+  </div>
       <div class="hero-overlay"></div>
 
       <div class="hero-content">
@@ -81,6 +89,55 @@
       <h2 class="section-title">Featured Cars</h2>
 
       <div class="cars-container" id="featuredCarsContainer"></div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <!-- WHY CHOOSE US -->
+    <section class="why-choose">
+      <div class="container">
+        <div class="section-header">
+           <h4 class="brand-subtitle">MCVID CARS</h4>
+           <h2 class="section-title">Why Mcvid Cars</h2>
+        </div>
+        
+        <div class="why-choose-grid">
+          <!-- Card 1 -->
+          <div class="feature-card">
+            <div class="icon-box">
+              <i class="ri-shield-check-line"></i>
+            </div>
+            <h3>Verified Cars</h3>
+            <p>Every vehicle is company-owned and fully verified. No third-party sellers or hidden issues. Buy with confidence from our certified inventory.</p>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="feature-card">
+            <div class="icon-box">
+              <i class="ri-time-line"></i>
+            </div>
+            <h3>Easy Purchase</h3>
+            <p>Transparent pricing and in-house paperwork. Quick, hassle-free process for every buyer. Drive away in your car with ease.</p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="feature-card">
+            <div class="icon-box">
+              <i class="ri-user-smile-line"></i>
+            </div>
+            <h3>Trusted Support</h3>
+            <p>Expert advice on every vehicle. Honest guidance throughout your purchase. Always available to assist our customers.</p>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="feature-card">
+             <div class="icon-box">
+              <i class="ri-car-line"></i>
+            </div>
+            <h3>Premium Rides</h3>
+            <p>Only top-quality, well-maintained cars. Modern features and reliable performance. Enjoy a smooth and comfortable ride.</p>
+          </div>
+        </div>
+      </div>
     </section>
     <footer class="site-footer">
       <div class="footer-container">
@@ -162,8 +219,8 @@
       document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 
+    <script src="../js/cars.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/carsF.js"></script>
-    <script src="../js/Features.js"></script>
   </body>
 </html>

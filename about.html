@@ -6,6 +6,11 @@
     <title>Mcvid Cars</title>
  <link rel="stylesheet" href="../css/style.css" />
     <link rel="stylesheet" href="../css/responsiveness.css" />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <!-- Icon Packs -->
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
@@ -15,107 +20,17 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet"/>
-<style>
-  body {
-  font-family: "Poppins", sans-serif;
-
-}
-.about-hero {
-  position: relative;
-  height: 60vh;
-  background: url("../images/backgrounds/abt.jpg") center/cover no-repeat;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 60px;
-}
-
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-}
-
-.hero-text {
-  position: relative;
-  color: #fff;
-  text-align: center;
-  max-width: 600px;
-  padding: 0 20px;
-  animation: slideUp 1s ease-out forwards;
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.about-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  padding: 60px 20px;
-  max-width: 1200px;
-  margin: auto;
-}
-
-.grid-card {
-  background: #fff;
-  padding: 25px;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-  transition: transform .3s ease;
-}
-
-.grid-card:hover {
-  transform: translateY(-5px);
-}
-.story-section {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  padding: 60px 20px;
-  max-width: 1200px;
-  margin: auto;
-}
-
-.story-img img {
-  width: 70%;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
-
-.story-text {
-  flex: 1;
-}
-.owner-section {
-  text-align: center;
-  padding: 60px 20px;
-}
-
-.owner-photo {
-  width: 160px;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 50%;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
-  margin-bottom: 20px;
-}
-
-</style>
-   
-  </head>
-  <body>
-    <!-- NAVBAR -->
-    <header class="navbar" id="navbar">
+    <!-- START OF CONTENT -->
+         <header class="navbar" id="navbar">
       <div class="menu-btn" id="menuBtn">
         <i class="ri-menu-line menu-icon"></i>
         <span class="menu-text">MENU</span>
       </div>
 
-      <div class="nav-logo"><i class="fas fa-car-side"></i>Mcvid Cars</div>
+      <div class="nav-logo">
+        <img src="../images/modern-logo.svg" alt="Car Logo" class="nav-brand-icon">
+        Mcvid Cars
+      </div>
 
       <div class="close-btn" id="closeBtn"><i class="ri-close-line"></i></div>
     </header>
@@ -129,70 +44,98 @@
         <li style="--i: 1"><a href="index.html">Home</a></li>
 
         <li style="--i: 3"><a href="about.html">About</a></li>
-                <li style="--i: 2"><a href="catalog.html">Catalog</a></li>
+        <li style="--i: 2"><a href="catalog.html">Catalog</a></li>
         <li style="--i: 4"><a href="contact.html">Contact</a></li>
-      
+      </ul>
     </nav>
-  <section class="about-hero" data-aos="fade-in">
-  <div class="hero-overlay"></div>
-  <div class="hero-text">
-    <h1>Driven by Excellence</h1>
-    <p>Your trusted dealership for quality cars and unmatched service.</p>
-  </div>
-</section>
+      <!-- NEW ABOUT HEADER & STATS -->
+    <section class="about-header">
+      <div class="container about-header-wrapper">
+        <!-- Left Content -->
+        <div class="about-header-content" data-aos="fade-right">
+          <span class="trust-badge">Trusted Car Marketplace</span>
+          <h1>Find your perfect ride</h1>
+          <p>Browse verified cars from trusted dealers. Smooth deals, transparent pricing, and vehicles you can rely on.</p>
+          
+          <div class="hero-stats-row">
+            <div class="h-stat">
+              <h3>1,200+</h3>
+              <span>Cars Listed</span>
+            </div>
+            <div class="h-stat">
+              <h3>300+</h3>
+              <span>Verified Sales</span>
+            </div>
+            <div class="h-stat">
+              <h3>98%</h3>
+              <span>Happy Buyers</span>
+            </div>
+            <a href="catalog.html" class="hero-shop-btn">Shop</a>
+          </div>
+        </div>
 
+        <!-- Right Image -->
+        <div class="about-header-image" data-aos="fade-left">
+           <!-- Using a high-quality car image. Update src if a specific group image is available. -->
+           <img src="../images/Cars/GLE/two.png" alt="Premium Cars">
+        </div>
+      </div>
+    </section>
 
     <!-- 3 CARD GRID: MISSION, VISION, MOTTO -->
-    
-<section class="about-grid">
-  <div class="grid-card" data-aos="fade-up">
-    <h2>Mission</h2>
-    <p>To deliver a smooth, transparent, and modern car buying experience powered by technology.</p>
-  </div>
+    <section class="about-grid">
+      <div class="grid-card" data-aos="fade-up">
+        <div class="icon-box"><i class="ri-rocket-line"></i></div>
+        <h2>Mission</h2>
+        <p>To deliver a smooth, transparent, and modern car buying experience powered by technology.</p>
+      </div>
 
-  <div class="grid-card" data-aos="fade-up" data-aos-delay="150">
-    <h2>Vision</h2>
-    <p>To become Africa’s most trusted and innovative automotive marketplace.</p>
-  </div>
+      <div class="grid-card" data-aos="fade-up" data-aos-delay="150">
+        <div class="icon-box"><i class="ri-eye-line"></i></div>
+        <h2>Vision</h2>
+        <p>To become Africa’s most trusted and innovative automotive marketplace.</p>
+      </div>
 
-  <div class="grid-card" data-aos="fade-up" data-aos-delay="300">
-    <h2>Motto</h2>
-    <p>Quality Cars. Honest Service. Smart Buying.</p>
-  </div>
-</section>
+      <div class="grid-card" data-aos="fade-up" data-aos-delay="300">
+         <div class="icon-box"><i class="ri-lightbulb-line"></i></div>
+        <h2>Motto</h2>
+        <p>Quality Cars. Honest Service. Smart Buying.</p>
+      </div>
+    </section>
 
-    <!-- STORY SECTION (LEFT IMAGE, RIGHT TEXT) -->
-   
+    <!-- STORY SECTION -->
+    <section class="story-section">
+      <div class="story-img" data-aos="fade-right">
+        <!-- Using a placeholder or existing image -->
+        <img src="../images/backgrounds/abt.jpg" alt="Luxury Car">
+      </div>
 
-<section class="story-section">
-  <div class="story-img" data-aos="fade-right">
-    <img src="../images/backgrounds/abt.jpg" alt="Luxury Car">
-  </div>
-
-  <div class="story-text" data-aos="fade-left">
-    <h2>Our Story</h2>
-    <p>
-      We began with a passion to transform the automotive experience in East Africa.
-      Today, we offer a wide range of high-quality vehicles, transparent pricing,
-      and modern buying tools — empowering customers to make confident choices.
-    </p>
-  </div>
-</section>
+      <div class="story-text" data-aos="fade-left">
+        <h4 class="brand-subtitle">OUR JOURNEY</h4>
+        <h2>Building Trust, One Car at a Time</h2>
+        <p>
+          We began with a passion to transform the automotive experience.
+          Today, Mcvid Cars stands as a beacon of transparency and quality. We don't just sell cars; 
+          we verify every detail, ensure every engine hums perfectly, and guide you to the ride that fits your life.
+        </p>
+        <p>
+          From family SUVs to executive sedans, our inventory is curated for reliability and style.
+        </p>
+      </div>
+    </section>
 
     <!-- OWNER SECTION -->
     <section class="owner-section" data-aos="zoom-in">
-  <img
-    src="../images/backgrounds/John Doe, Se7en.jpg"
-    class="owner-photo"
-  />
-
-  <div class="owner-details">
-    <h2>Meet the Owner</h2>
-    <p>Driven by passion, focused on quality, and committed to helping every customer find the perfect car.</p>
-
-    <blockquote>“A great car doesn’t just get you moving — it moves your life.”</blockquote>
-  </div>
-</section>
+      <div class="owner-container">
+        <img src="../images/backgrounds/John Doe, Se7en.jpg" class="owner-photo" alt="Owner" />
+        <div class="owner-details">
+          <h2>Meet the Owner</h2>
+          <p class="owner-role">Founder & CEO</p>
+          <p>Driven by passion, focused on quality, and committed to helping every customer find the perfect car.</p>
+          <blockquote>“A great car doesn’t just get you moving — it moves your life forward.”</blockquote>
+        </div>
+      </div>
+    </section>
 
     <footer class="site-footer">
       <div class="footer-container">

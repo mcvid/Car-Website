@@ -24,11 +24,30 @@ mainImage.src = car.images[0];
 
 // THUMBNAILS
 const thumbContainer = document.getElementById("thumbContainer");
-car.images.forEach((img) => {
+car.images.forEach((img, index) => {
   const thumb = document.createElement("img");
   thumb.src = img;
   thumb.className = "thumb";
-  thumb.onclick = () => (mainImage.src = img);
+  if (index === 0) thumb.classList.add("active-thumb"); // Activate first by default
+
+  thumb.onclick = function () {
+    // 1. Update Active State
+    document.querySelectorAll(".thumb").forEach((t) => {
+      t.classList.remove("active-thumb");
+      t.classList.remove("pop-anim"); // reset animation
+    });
+    this.classList.add("active-thumb");
+    this.classList.add("pop-anim");
+
+    // 2. Main Image Transition
+    mainImage.classList.add("fade-out");
+
+    setTimeout(() => {
+      mainImage.src = img;
+      mainImage.classList.remove("fade-out");
+    }, 300); // Wait for fade out
+  };
+
   thumbContainer.appendChild(thumb);
 });
 
@@ -63,10 +82,30 @@ const specs = {
   Location: car.location,
 };
 
+const iconMap = {
+  Year: "ri-calendar-line",
+  Engine: "ri-settings-3-line",
+  Horsepower: "ri-speed-up-line",
+  Fuel: "ri-gas-station-line",
+  "Fuel Consumption": "ri-drop-line",
+  Transmission: "ri-git-merge-fill",
+  Seats: "ri-group-line", // or ri-armchair-line
+  Mileage: "ri-road-map-line",
+  Condition: "ri-shield-check-line",
+  Color: "ri-palette-line",
+  Owner: "ri-user-smile-line",
+  Location: "ri-map-pin-line",
+};
+
 Object.entries(specs).forEach(([key, value]) => {
   const row = document.createElement("tr");
+  const iconClass = iconMap[key] || "ri-information-line"; // Fallback icon
+
   row.innerHTML = `
-        <td>${key}</td>
+        <td>
+          <i class="${iconClass}" style="margin-right: 8px; color: #0055ff; font-size: 1.1rem;"></i> 
+          ${key}
+        </td>
         <td>${value}</td>
       `;
   specTable.appendChild(row);

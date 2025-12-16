@@ -5,51 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Car Details - Mcvid Cars</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Icon Packs -->
+    <!-- Icons -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
-    /><link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
 
-<style>
-  .back-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  text-decoration: none;
-  background: #111;
-  color: #fff;
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  transition: 0.3s ease;
-}
-
-.back-button i {
-  font-size: 16px;
-}
-.details-page {
-  margin-top: 80px; /* adjust if navbar height is different */
-}
-
-.back-button:hover {
-  background: #333;
-}
-button a{
-  text-decoration: none;
-  color: #000;
-}
-.banner { padding: 20px; margin-bottom: 20px; border-radius: 8px; color: #000; } .daily-grind { background-color: #F9D94A; } .daily-grind h4 { margin: 0 0 10px; font-size: 14px; text-transform: uppercase; color: #555; } .daily-grind h2 { margin: 0 0 10px; font-size: 24px; font-weight: bold; } .daily-grind p { margin: 0 0 15px; font-size: 16px; } .daily-grind button { background-color: #fff; border: none; padding: 10px 20px; font-size: 14px; cursor: pointer; border-radius: 4px; } .tazon { background-color: #1C2C4C; color: #fff; } .tazon h4 { margin: 0 0 10px; font-size: 14px; text-transform: uppercase; color: #ccc; } .tazon h2 { margin: 0 0 10px; font-size: 24px; font-weight: bold; } .tazon p { margin: 0; font-size: 16px; }
-</style>
     <link rel="stylesheet" href="../css/style.css" />
   </head>
 
@@ -60,10 +21,7 @@ button a{
         <span class="menu-text">MENU</span>
       </div>
 
-      <div class="nav-logo">
-         <img src="../images/modern-logo.svg" alt="Car Logo" class="nav-brand-icon">
-         Mcvid Cars
-      </div>
+      <div class="nav-logo"><i class="fas fa-car-side"></i>Mcvid Cars</div>
 
       <div class="close-btn" id="closeBtn"><i class="ri-close-line"></i></div>
     </header>
@@ -76,38 +34,18 @@ button a{
         <li style="--i: 2"><a href="catalog.html">Catalog</a></li>
         <li style="--i: 3"><a href="about.html">About</a></li>
         <li style="--i: 4"><a href="contact.html">Contact</a></li>
-        -
-        
+      </ul>
     </nav>
     <main class="details-page">
-      <a href="catalog.html" class="back-button">
-  <i class="fas fa-arrow-left"></i> Back to Catalog
-</a>
-
+      <a href="catalog.html" class="back-button" title="Back to Catalog">
+        <i class="ri-arrow-left-line"></i> Back to Catalog
+      </a>
       <section class="details-container">
         <!-- LEFT: IMAGE GALLERY -->
-        <div class="details-gallery"> 
+        <div class="details-gallery">
           <img id="mainImage" class="main-image" src="" alt="Car Image" />
 
           <div id="thumbContainer" class="thumbs"></div>
-          
-          <!-- BANNERS -->
-          <div class="banner daily-grind">
-            <div class="banner-content">
-              <h4>ADVERTISEMENT</h4>
-              <h2>Daily Grind Podcasts</h2>
-              <p>Tune in to our daily podcasts about matters that matter.</p>
-            </div>
-            <button><a href="https://youtube.com/@dg-kmss?si=UJ3td_HQK2ouT-dx">Go To Channel</a></button>
-          </div>
-          
-          <div class="banner tazon">
-            <div class="banner-content">
-              <h4>SPONSORED | WEBSITE CRAFTED BY</h4>
-              <h2>Tazon Incorporation</h2>
-              <p>Modern websites for car dealers, startups & growing brands.</p>
-            </div>
-          </div>
         </div>
 
         <!-- RIGHT: DETAILS -->
@@ -231,7 +169,6 @@ button a{
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
     </script>
-    IPTS -->
     <script src="../js/cars.js"></script>
     <script src="../js/main.js"></script>
     <script src="../js/details.js"></script>

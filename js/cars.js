@@ -9,6 +9,7 @@ const cars = [
   {
     id: "prado2020",
     name: "Toyota Land Cruiser Prado 2020",
+    featured: true,
     type: "SUV",
     price_usd: 52000,
     price_ugx: 195000000,
@@ -44,6 +45,7 @@ const cars = [
   {
     id: "harrier2018",
     name: "Toyota Harrier 2018",
+    featured: true,
     type: "SUV",
     price_usd: 26000,
     price_ugx: 95000000,
@@ -178,7 +180,7 @@ const cars = [
     features: ["Sport mode", "Powerful acceleration", "Keyless entry"],
     images: [
       "../images/Cars/fielder/one.jpg",
-      "../images/Cars/fielder/two.avif",
+      "../images/Cars/fielder/two.webp",
       "../images/Cars/fielder/three.jpg",
     ],
   },
@@ -188,7 +190,8 @@ const cars = [
   // ==============================
   {
     id: "gwagon2017",
-    name: " G Wagon 2017",
+    name: "Mercedes-Benz G-Wagon 2017",
+    featured: true,
     type: "SUV",
     price_usd: 38000,
     price_ugx: 140000000,
@@ -217,7 +220,8 @@ const cars = [
   // ==============================
   {
     id: "noah2014",
-    name: "Toyota Alphard 2020",
+    name: "Toyota Noah 2014",
+    featured: true,
     type: "Van",
     price_usd: 14000,
     price_ugx: 51000000,
@@ -275,7 +279,8 @@ const cars = [
   // ==============================
   {
     id: "hilux2019",
-    name: "Ford Ranger 2019",
+    name: "Toyota Hilux 2019",
+    featured: true,
     type: "Pickup",
     price_usd: 33000,
     price_ugx: 121000000,
@@ -297,6 +302,125 @@ const cars = [
       "../images/Cars/hilux2019/two.jpg",
       "../images/Cars/hilux2019/three.avif",
     ],
+  },
+
+  // ==============================
+  // 11. Toyota Sienta
+  // ==============================
+  {
+    id: "seinta",
+    name: "Toyota Sienta",
+    featured: true,
+    type: "MPV",
+    price_usd: 12500,
+    price_ugx: 48000000,
+    year: 2016,
+    engine: "1.5L",
+    horsepower: "107 HP",
+    fuel: "Petrol",
+    fuel_consumption: "18.0 km/l",
+    transmission: "Automatic",
+    seats: 7,
+    mileage: "85,000 km",
+    condition: "Used",
+    color: "Beige",
+    owner: "Mcvid",
+    location: "Kampala",
+    features: ["Sliding doors", "Fuel efficient", "Spacious"],
+    images: [
+      "../images/Cars/Seinta/one.jpg",
+      "../images/Cars/Seinta/two.webp",
+      "../images/Cars/Seinta/three.jpg"
+    ]
+  },
+
+  // ==============================
+  // 12. Toyota PickUp (Generic)
+  // ==============================
+  {
+    id: "pickup",
+    name: "Toyota PickUp",
+    featured: true,
+    type: "Pickup",
+    price_usd: 12500,
+    price_ugx: 48000000,
+    year: 2010,
+    engine: "2.5L Diesel",
+    horsepower: "100 HP",
+    fuel: "Diesel",
+    fuel_consumption: "12.0 km/l",
+    transmission: "Manual",
+    seats: 2,
+    mileage: "150,000 km",
+    condition: "Used",
+    color: "White",
+    owner: "Mcvid",
+    location: "Gulu",
+    features: ["Heavy duty", "Large bed", "Reliable"],
+    images: [
+      "../images/Cars/Pick Up/one.avif",
+      "../images/Cars/Pick Up/two.jpg",
+      "../images/Cars/Pick Up/three.jpg"
+    ]
+  },
+
+  // ==============================
+  // 13. Toyota Fortuner
+  // ==============================
+  {
+    id: "fortuner",
+    name: "Toyota Fortuner",
+    featured: true,
+    type: "SUV",
+    price_usd: 47000,
+    price_ugx: 180000000,
+    year: 2018,
+    engine: "2.8L Diesel",
+    horsepower: "174 HP",
+    fuel: "Diesel",
+    fuel_consumption: "11.0 km/l",
+    transmission: "Automatic",
+    seats: 7,
+    mileage: "55,000 km",
+    condition: "Used",
+    color: "Black",
+    owner: "Mcvid",
+    location: "Kampala",
+    features: ["Luxury interior", "4WD", "Touchscreen"],
+    images: [
+      "../images/Cars/Fortuner/one.jpg",
+      "../images/Cars/Fortuner/two.jpeg",
+      "../images/Cars/Fortuner/three.jpg"
+    ]
+  },
+
+  // ==============================
+  // 14. Mercedes-Benz GLE
+  // ==============================
+  {
+    id: "gle",
+    name: "Mercedes-Benz GLE",
+    type: "SUV",
+    price_usd: 55000,
+    price_ugx: 205000000,
+    year: 2019,
+    engine: "3.0L V6",
+    horsepower: "362 HP",
+    fuel: "Petrol",
+    fuel_consumption: "9.5 km/l",
+    transmission: "Automatic",
+    seats: 5,
+    mileage: "45,000 km",
+    condition: "Used",
+    color: "Grey",
+    owner: "Mcvid",
+    location: "Kampala",
+    features: ["Premium Audio", "Leather seats", "Panoramic roof"],
+    images: [
+      "../images/Cars/GLE/one.webp",
+      "../images/Cars/GLE/two.png",
+      "../images/Cars/GLE/three.jpg"
+    ]
   },
 ];
 
