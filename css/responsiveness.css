@@ -1,8 +1,36 @@
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .nav-logo {
     font-size: 20px;
   }
   .menu-text {
-    font-size: 16px;
+    display: none; /* Hide MENU text on mobile */
+  }
+
+  /* GRID REPAIRS */
+  .why-choose-grid,
+  .cars-container,
+  .catalog-grid,
+  .hero-stats-row {
+    grid-template-columns: 1fr; /* Force 1 column stack */
+    display: grid;
+  }
+
+  .hero-stats-row {
+    justify-content: center;
+    display: flex; /* Keep stats flex but centered */
+  }
+
+  /* HERO TEXT */
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .about-header-wrapper {
+    flex-direction: column-reverse;
+  }
+
+  .about-header-image img {
+    width: 100%;
+    margin-bottom: 30px;
   }
 }
