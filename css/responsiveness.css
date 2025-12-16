@@ -33,4 +33,20 @@
     width: 100%;
     margin-bottom: 30px;
   }
+
+  /* BANNER STACKING */
+  .banner {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .banner-content {
+    width: 100%;
+  }
+
+  .banner button {
+    width: 100%;
+    max-width: 200px; /* Prevent it from being too wide */
+  }
 }
