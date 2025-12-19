@@ -4,12 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mcvid Cars</title>
-    <link rel="icon" type="image/jpeg" href="images/favicon.jpg">
+    <link rel="icon" type="image/jpeg" href="images/favicon.jpg" />
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Icon Packs -->
     <link
@@ -21,8 +24,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
 
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/responsiveness.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsiveness.css" />
   </head>
   <body>
     <!-- NAVBAR -->
@@ -33,7 +36,11 @@
       </div>
 
       <div class="nav-logo">
-        <img src="images/modern-logo.svg" alt="Car Logo" class="nav-brand-icon">
+        <img
+          src="images/modern-logo.svg"
+          alt="Car Logo"
+          class="nav-brand-icon"
+        />
         Mcvid Cars
       </div>
 
@@ -49,9 +56,10 @@
         <li style="--i: 1"><a href="index.html">Home</a></li>
 
         <li style="--i: 3"><a href="about.html">About</a></li>
-                <li style="--i: 2"><a href="catalog.html">Catalog</a></li>
+        <li style="--i: 2"><a href="catalog.html">Catalog</a></li>
         <li style="--i: 4"><a href="contact.html">Contact</a></li>
-       
+        <li style="--i: 5"><a href="login.html">Admin</a></li>
+      </ul>
     </nav>
     <section class="contact-hero">
       <div class="contact-overlay"></div>
@@ -82,7 +90,7 @@
           <p id="formStatus"></p>
         </form>
       </div>
-
+      <a href="/admin.html">Admin</a>
       <!-- DIRECT CONTACT -->
       <div class="direct-contact">
         <h2>Quick Contact</h2>
@@ -183,8 +191,7 @@
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
     </script>
-    <script src="../js/catalog.js"></script>
-    <script src="../js/contact.js"></script>
-    <script src="../js/main.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/contact.js"></script>
   </body>
 </html>

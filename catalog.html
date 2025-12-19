@@ -24,8 +24,11 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
 
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/responsiveness.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsiveness.css" />
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body>
     <!-- NAVBAR -->
@@ -58,6 +61,7 @@
         <li style="--i: 3"><a href="about.html">About</a></li>
         <li style="--i: 2"><a href="catalog.html">Catalog</a></li>
         <li style="--i: 4"><a href="contact.html">Contact</a></li>
+        <li style="--i: 5"><a href="login.html">Admin</a></li>
       </ul>
     </nav>
     <section class="catalog-hero">
@@ -70,9 +74,10 @@
       <div id="catalogContainer" class="catalog-grid"></div>
     </section>
 
-    <script src="../js/cars.js"></script>
-    <script src="../js/main.js"></script>
-    <script src="../js/catalog.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/cars.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/catalog.js"></script>
 
     <footer class="site-footer">
       <div class="footer-container">

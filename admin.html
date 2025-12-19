@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Upload New Vehicle | Mcvid Cars</title>
+    <script>
+      // Auth Check
+      if (localStorage.getItem("mcvid_admin_auth") !== "true") {
+        window.location.href = "login.html";
+      }
+    </script>
+    <link rel="icon" type="image/jpeg" href="images/favicon.jpg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icon Packs -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsiveness.css" />
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+      .admin-container {
+        max-width: 1000px;
+        margin: 120px auto 60px;
+        padding: 40px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+      .admin-title {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #1a1a1a;
+        font-family: "Outfit", sans-serif;
+        font-size: 2.5rem;
+      }
+      .upload-form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .form-group.full-width {
+        grid-column: span 2;
+      }
+      .form-group label {
+        font-weight: 500;
+        color: #555;
+        font-size: 0.9rem;
+      }
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 12px 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        font-family: "Inter", sans-serif;
+        background: #f8f9fa;
+        transition: all 0.3s ease;
+      }
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        background: #fff;
+        border-color: #0055ff;
+        box-shadow: 0 0 0 4px rgba(0, 85, 255, 0.1);
+        outline: none;
+      }
+      .image-upload-section {
+        grid-column: span 2;
+        padding: 30px;
+        border: 2px dashed #e0e0e0;
+        border-radius: 20px;
+        text-align: center;
+        background: #fcfcfc;
+        margin-bottom: 20px;
+      }
+      .image-preview-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 15px;
+        margin-top: 20px;
+      }
+      .image-preview-item {
+        position: relative;
+        aspect-ratio: 4/3;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid #eee;
+      }
+      .image-preview-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .remove-img {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background: rgba(0, 0, 0, 0.6);
+        color: #fff;
+        border: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+      }
+      .publish-btn {
+        grid-column: span 2;
+        background: #1a1a1a;
+        color: #fff;
+        padding: 16px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+      }
+      .publish-btn:hover {
+        background: #333;
+        transform: translateY(-2px);
+      }
+
+      /* Custom Alert */
+      .custom-alert {
+        position: fixed;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-100px);
+        background: #0ea5e9; /* Sky Blue */
+        color: white;
+        padding: 16px 32px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3);
+        z-index: 9999;
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        font-weight: 500;
+      }
+      .custom-alert.show {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      /* Footer Banners */
+      .footer-banners {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .admin-banner {
+        padding: 20px;
+        border-radius: 15px;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        min-width: 250px;
+      }
+      .admin-banner.daily-grind {
+        background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      }
+      .admin-banner.tazon {
+        background: linear-gradient(135deg, #0055ff, #00d2ff);
+      }
+      .admin-banner h4 {
+        font-size: 0.7rem;
+        opacity: 0.8;
+        margin-bottom: 5px;
+        letter-spacing: 1px;
+      }
+      .admin-banner h2 {
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+      }
+      .admin-banner p {
+        font-size: 0.85rem;
+        opacity: 0.9;
+      }
+
+      /* ADMIN DASHBOARD STYLES */
+      .admin-dashboard {
+        max-width: 1200px;
+        margin: 100px auto 40px;
+        padding: 0 20px;
+      }
+
+      .dashboard-header {
+        margin-bottom: 40px;
+      }
+
+      .welcome-section {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .admin-avatar {
+        width: 70px;
+        height: 70px;
+        background: #1a1a1a;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+
+      .welcome-text h2 {
+        font-size: 1.8rem;
+        margin: 0 0 5px 0;
+        color: #1a1a1a;
+        font-family: "Outfit", sans-serif;
+      }
+
+      .admin-name {
+        color: #0ea5e9;
+      }
+
+      .welcome-text p {
+        margin: 0 0 10px 0;
+        color: #666;
+        font-size: 0.95rem;
+      }
+
+      .logout-link {
+        color: #ef4444;
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        transition: 0.3s;
+      }
+
+      .logout-link:hover {
+        color: #dc2626;
+      }
+
+      .dashboard-cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin-bottom: 50px;
+      }
+
+      .action-card {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        text-align: center;
+        border: 1px solid #e5e7eb;
+        transition: all 0.3s ease;
+      }
+
+      .action-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      .card-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 2rem;
+      }
+
+      .add-icon {
+        background: linear-gradient(135deg, #a7f3d0, #6ee7b7);
+        color: #065f46;
+      }
+
+      .edit-icon {
+        background: linear-gradient(135deg, #c4b5fd, #a78bfa);
+        color: #5b21b6;
+      }
+
+      .sales-icon {
+        background: linear-gradient(135deg, #6ee7b7, #34d399);
+        color: #065f46;
+      }
+
+      .action-card h3 {
+        font-size: 1.25rem;
+        margin: 0 0 10px 0;
+        color: #1a1a1a;
+        font-family: "Outfit", sans-serif;
+      }
+
+      .action-card p {
+        color: #666;
+        font-size: 0.9rem;
+        margin: 0 0 20px 0;
+      }
+
+      .card-btn {
+        display: inline-block;
+        background: #10b981;
+        color: white;
+        padding: 10px 24px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: 0.3s;
+      }
+
+      .card-btn:hover {
+        background: #059669;
+      }
+
+      #uploadForm {
+        scroll-margin-top: 100px;
+      }
+
+      .back-to-dashboard {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: transparent;
+        border: 1px solid #e5e7eb;
+        color: #0ea5e9;
+        padding: 10px 20px;
+        border-radius: 10px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        margin-bottom: 20px;
+        font-size: 0.95rem;
+      }
+
+      .back-to-dashboard:hover {
+        background: #f0f9ff;
+        border-color: #0ea5e9;
+      }
+
+      @media (max-width: 768px) {
+        .dashboard-cards {
+          grid-template-columns: 1fr;
+        }
+
+        .welcome-section {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .upload-form {
+          grid-template-columns: 1fr;
+        }
+        .form-group.full-width,
+        .image-upload-section,
+        .publish-btn {
+          grid-column: span 1;
+        }
+        .image-preview-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="navbar" id="navbar">
+      <div class="menu-btn" id="menuBtn">
+        <i class="ri-menu-line menu-icon"></i>
+        <span class="menu-text">MENU</span>
+      </div>
+
+      <div class="nav-logo">
+        <img
+          src="images/modern-logo.svg"
+          alt="Car Logo"
+          class="nav-brand-icon"
+        />
+        Mcvid Cars
+      </div>
+
+      <div class="close-btn" id="closeBtn"><i class="ri-close-line"></i></div>
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+
+    <nav class="side-menu" id="sideMenu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="catalog.html">Catalog</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="admin.html" class="active">Admin</a></li>
+      </ul>
+    </nav>
+
+    <!-- Custom Success Alert -->
+    <div id="successAlert" class="custom-alert">
+      <i class="ri-checkbox-circle-fill"></i>
+      Car has been Added Successfully!
+    </div>
+
+    <!-- ADMIN DASHBOARD -->
+    <div class="admin-dashboard">
+      <div class="dashboard-header">
+        <div class="welcome-section">
+          <div class="admin-avatar">BAR</div>
+          <div class="welcome-text">
+            <h2>Welcome, <span class="admin-name">Macheri Naveed</span></h2>
+            <p>Edit and manage cars and sales.</p>
+            <a href="login.html?logout=true" class="logout-link">
+              <i class="ri-logout-box-line"></i> Log Out
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-cards">
+        <div class="action-card">
+          <div class="card-icon add-icon">
+            <i class="ri-upload-cloud-line"></i>
+          </div>
+          <h3>Add New Car</h3>
+          <p>Upload new vehicles to enrich stock.</p>
+          <button class="card-btn" onclick="showUploadForm()">
+            Go to Upload
+          </button>
+        </div>
+
+        <div class="action-card">
+          <div class="card-icon edit-icon">
+            <i class="ri-edit-line"></i>
+          </div>
+          <h3>Edit a Car</h3>
+          <p>Modify existing car details.</p>
+          <a href="edit.html" class="card-btn">Go to Edit</a>
+        </div>
+
+        <div class="action-card">
+          <div class="card-icon sales-icon">
+            <i class="ri-money-dollar-circle-line"></i>
+          </div>
+          <h3>Manage Sales</h3>
+          <p>Track and manage car sales.</p>
+          <button
+            class="card-btn"
+            onclick="alert('Sales management coming soon!')"
+          >
+            Go to Sales
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-container" id="uploadSection" style="display: none">
+      <button class="back-to-dashboard" onclick="showDashboard()">
+        <i class="ri-arrow-left-line"></i> Back to Dashboard
+      </button>
+
+      <h1 class="admin-title">Upload New Vehicle</h1>
+
+      <form id="carForm" class="upload-form" id="uploadForm">
+        <!-- Basic Info -->
+        <div class="form-group">
+          <label for="carNameInput">Car Title/Name</label>
+          <input
+            type="text"
+            id="carNameInput"
+            placeholder="e.g. Toyota Harrier 2022"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="brandSelect">Brand</label>
+          <select id="brandSelect" required>
+            <option value="" disabled selected>Select Brand</option>
+            <option>Toyota</option>
+            <option>Mercedes-Benz</option>
+            <option>BMW</option>
+            <option>Subaru</option>
+            <option>Range Rover</option>
+            <option>Audi</option>
+            <option>Honda</option>
+            <option>Nissan</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="priceUsd">Price (USD)</label>
+          <input
+            type="number"
+            id="priceUsd"
+            placeholder="e.g. 25000"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="priceUgx">Price (UGX)</label>
+          <input
+            type="number"
+            id="priceUgx"
+            placeholder="e.g. 95000000"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="yearInput">Year</label>
+          <input type="number" id="yearInput" placeholder="2020" required />
+        </div>
+
+        <div class="form-group">
+          <label for="engineInput">Engine</label>
+          <input
+            type="text"
+            id="engineInput"
+            placeholder="2.0L Petrol"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="horsepowerInput">Horsepower</label>
+          <input
+            type="text"
+            id="horsepowerInput"
+            placeholder="150 HP"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="fuelSelect">Fuel Type</label>
+          <select id="fuelSelect" required>
+            <option value="" disabled selected>Select Fuel</option>
+            <option>Petrol</option>
+            <option>Diesel</option>
+            <option>Hybrid</option>
+            <option>Electric</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="consumptionInput">Fuel Consumption</label>
+          <input
+            type="text"
+            id="consumptionInput"
+            placeholder="12.5 km/l"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="transmissionSelect">Transmission</label>
+          <select id="transmissionSelect" required>
+            <option value="" disabled selected>Select Transmission</option>
+            <option>Automatic</option>
+            <option>Manual</option>
+            <option>CVT</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="seatsInput">Seats</label>
+          <input type="number" id="seatsInput" placeholder="5" required />
+        </div>
+
+        <div class="form-group">
+          <label for="mileageInput">Mileage</label>
+          <input
+            type="text"
+            id="mileageInput"
+            placeholder="45,000 km"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="conditionSelect">Condition</label>
+          <select id="conditionSelect" required>
+            <option value="" disabled selected>Select Condition</option>
+            <option>New</option>
+            <option>Used / Foreign Used</option>
+            <option>Locally Used</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="colorInput">Color</label>
+          <input
+            type="text"
+            id="colorInput"
+            placeholder="Pearl White"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="locationInput">Location</label>
+          <input
+            type="text"
+            id="locationInput"
+            placeholder="Kampala, Uganda"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="bodyTypeSelect">Body Type</label>
+          <select id="bodyTypeSelect" required>
+            <option value="" disabled selected>Select Body Type</option>
+            <option>SUV</option>
+            <option>Sedan</option>
+            <option>Hatchback</option>
+            <option>Pickup</option>
+            <option>Van</option>
+            <option>MPV</option>
+          </select>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="featuresInput">Features (Comma separated)</label>
+          <textarea
+            id="featuresInput"
+            rows="3"
+            placeholder="Leather seats, Sunroof, Reverse camera, etc."
+          ></textarea>
+        </div>
+
+        <div
+          class="form-group full-width"
+          style="flex-direction: row; align-items: center; gap: 10px"
+        >
+          <input type="checkbox" id="featuredInput" />
+          <label for="featuredInput">Feature this car on homepage</label>
+        </div>
+
+        <div class="image-upload-section">
+          <h3>Vehicle Images</h3>
+          <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px">
+            Select up to 10 images from your computer
+          </p>
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 15px;
+            "
+          >
+            <input
+              type="file"
+              id="imageFileInput"
+              accept="image/*"
+              multiple
+              style="display: none"
+            />
+            <label
+              for="imageFileInput"
+              style="
+                background: #0055ff;
+                color: #fff;
+                padding: 12px 25px;
+                border-radius: 10px;
+                cursor: pointer;
+                font-weight: 500;
+              "
+            >
+              <i class="ri-upload-cloud-line"></i> Choose Images
+            </label>
+            <div id="imagePreviewGrid" class="image-preview-grid"></div>
+          </div>
+        </div>
+
+        <button type="submit" class="publish-btn" id="submitBtn">
+          Publish Vehicle
+        </button>
+      </form>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-container admin-footer-grid">
+        <!-- Brand + Motto -->
+        <div class="footer-brand">
+          <h2><i class="fas fa-car-side"></i> Mcvid Cars</h2>
+          <p class="motto">“Drive Your Dream.”</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="footer-links">
+          <h3><i class="fas fa-list"></i> Pages</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Contacts -->
+        <div class="footer-contact">
+          <h3><i class="fas fa-headset"></i> Contact</h3>
+          <ul>
+            <li>
+              <a href="https://wa.me/256700000000" target="_blank"
+                ><i class="fab fa-whatsapp"></i> WhatsApp</a
+              >
+            </li>
+            <li>
+              <a href="tel:+256700000000"
+                ><i class="fas fa-phone-alt"></i> Call Us</a
+              >
+            </li>
+            <li>
+              <a href="mailto:info@mcvidcars.com"
+                ><i class="fas fa-envelope"></i> Email</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Socials -->
+        <div class="footer-socials">
+          <h3><i class="fas fa-share-alt"></i> Follow Us</h3>
+          <ul>
+            <li>
+              <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-tiktok"></i> TikTok</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© <span id="year"></span> Mcvid Cars • All Rights Reserved</p>
+        <p>Website Developed by <strong>Tazon Inc.</strong></p>
+      </div>
+    </footer>
+
+    <script src="js/supabase.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+
+      // Dashboard navigation functions
+      function showUploadForm() {
+        document.getElementById("uploadSection").style.display = "block";
+        document.querySelector(".admin-dashboard").style.display = "none";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function showDashboard() {
+        document.getElementById("uploadSection").style.display = "none";
+        document.querySelector(".admin-dashboard").style.display = "block";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Car | Mcvid Cars</title>
+    <script>
+      // Auth Check
+      if (localStorage.getItem("mcvid_admin_auth") !== "true") {
+        window.location.href = "login.html";
+      }
+    </script>
+    <link rel="icon" type="image/jpeg" href="images/favicon.jpg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icon Packs -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsiveness.css" />
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+      .edit-car-container {
+        max-width: 1000px;
+        margin: 120px auto 60px;
+        padding: 40px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
+
+      .edit-car-title {
+        text-align: center;
+        margin-bottom: 40px;
+        color: #1a1a1a;
+        font-family: "Outfit", sans-serif;
+        font-size: 2.5rem;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #0ea5e9;
+        text-decoration: none;
+        margin-bottom: 20px;
+        font-weight: 500;
+        transition: 0.3s;
+      }
+
+      .back-link:hover {
+        color: #0284c7;
+      }
+
+      .update-form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .form-group.full-width {
+        grid-column: span 2;
+      }
+
+      .form-group label {
+        font-weight: 500;
+        color: #555;
+        font-size: 0.9rem;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 12px 16px;
+        border: 1px solid #e0e0e0;
+        border-radius: 12px;
+        font-family: "Inter", sans-serif;
+        background: #f8f9fa;
+        transition: all 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        background: #fff;
+        border-color: #0ea5e9;
+        box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+        outline: none;
+      }
+
+      .update-btn {
+        grid-column: span 2;
+        background: #0ea5e9;
+        color: #fff;
+        padding: 16px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+      }
+
+      .update-btn:hover {
+        background: #0284c7;
+        transform: translateY(-2px);
+      }
+
+      .update-btn:disabled {
+        background: #94a3b8;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .success-alert {
+        position: fixed;
+        top: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-100px);
+        background: #0ea5e9;
+        color: white;
+        padding: 16px 32px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3);
+        z-index: 9999;
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        font-weight: 500;
+      }
+
+      .success-alert.show {
+        transform: translateX(-50%) translateY(0);
+      }
+
+      @media (max-width: 768px) {
+        .update-form {
+          grid-template-columns: 1fr;
+        }
+        .form-group.full-width,
+        .update-btn {
+          grid-column: span 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="navbar" id="navbar">
+      <div class="menu-btn" id="menuBtn">
+        <i class="ri-menu-line menu-icon"></i>
+        <span class="menu-text">MENU</span>
+      </div>
+
+      <div class="nav-logo">
+        <img
+          src="images/modern-logo.svg"
+          alt="Car Logo"
+          class="nav-brand-icon"
+        />
+        Mcvid Cars
+      </div>
+
+      <div class="close-btn" id="closeBtn"><i class="ri-close-line"></i></div>
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+
+    <nav class="side-menu" id="sideMenu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="catalog.html">Catalog</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="login.html">Admin</a></li>
+      </ul>
+    </nav>
+
+    <!-- Success Alert -->
+    <div id="successAlert" class="success-alert">
+      <i class="ri-checkbox-circle-fill"></i>
+      Car updated successfully!
+    </div>
+
+    <!-- EDIT FORM -->
+    <div class="edit-car-container">
+      <a href="edit.html" class="back-link">
+        <i class="ri-arrow-left-line"></i> Back to All Cars
+      </a>
+      <a href="admin.html" class="back-link" style="margin-left: 15px">
+        <i class="ri-dashboard-line"></i> Back to Dashboard
+      </a>
+
+      <h1 class="edit-car-title">Edit Car Details</h1>
+
+      <form id="updateForm" class="update-form">
+        <div class="form-group">
+          <label for="carName">Car Title/Name</label>
+          <input type="text" id="carName" required />
+        </div>
+
+        <div class="form-group">
+          <label for="brand">Brand</label>
+          <select id="brand" required>
+            <option value="">Select Brand</option>
+            <option>Toyota</option>
+            <option>Mercedes-Benz</option>
+            <option>BMW</option>
+            <option>Subaru</option>
+            <option>Range Rover</option>
+            <option>Audi</option>
+            <option>Honda</option>
+            <option>Nissan</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="priceUsd">Price (USD)</label>
+          <input type="number" id="priceUsd" required />
+        </div>
+
+        <div class="form-group">
+          <label for="priceUgx">Price (UGX)</label>
+          <input type="number" id="priceUgx" required />
+        </div>
+
+        <div class="form-group">
+          <label for="year">Year</label>
+          <input type="number" id="year" required />
+        </div>
+
+        <div class="form-group">
+          <label for="engine">Engine</label>
+          <input type="text" id="engine" required />
+        </div>
+
+        <div class="form-group">
+          <label for="horsepower">Horsepower</label>
+          <input type="text" id="horsepower" required />
+        </div>
+
+        <div class="form-group">
+          <label for="fuel">Fuel Type</label>
+          <select id="fuel" required>
+            <option value="">Select Fuel</option>
+            <option>Petrol</option>
+            <option>Diesel</option>
+            <option>Hybrid</option>
+            <option>Electric</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="consumption">Fuel Consumption</label>
+          <input type="text" id="consumption" required />
+        </div>
+
+        <div class="form-group">
+          <label for="transmission">Transmission</label>
+          <select id="transmission" required>
+            <option value="">Select Transmission</option>
+            <option>Automatic</option>
+            <option>Manual</option>
+            <option>CVT</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="seats">Seats</label>
+          <input type="number" id="seats" required />
+        </div>
+
+        <div class="form-group">
+          <label for="mileage">Mileage</label>
+          <input type="text" id="mileage" required />
+        </div>
+
+        <div class="form-group">
+          <label for="condition">Condition</label>
+          <select id="condition" required>
+            <option value="">Select Condition</option>
+            <option>New</option>
+            <option>Used / Foreign Used</option>
+            <option>Locally Used</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="color">Color</label>
+          <input type="text" id="color" required />
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" id="location" required />
+        </div>
+
+        <div class="form-group">
+          <label for="bodyType">Body Type</label>
+          <select id="bodyType" required>
+            <option value="">Select Body Type</option>
+            <option>SUV</option>
+            <option>Sedan</option>
+            <option>Hatchback</option>
+            <option>Pickup</option>
+            <option>Van</option>
+            <option>MPV</option>
+          </select>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="features">Features (Comma separated)</label>
+          <textarea id="features" rows="3"></textarea>
+        </div>
+
+        <div
+          class="form-group full-width"
+          style="flex-direction: row; align-items: center; gap: 10px"
+        >
+          <input type="checkbox" id="featured" />
+          <label for="featured">Feature this car on homepage</label>
+        </div>
+
+        <button type="submit" class="update-btn" id="updateBtn">
+          Update Car Details
+        </button>
+      </form>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-brand">
+          <h2><i class="fas fa-car-side"></i> Mcvid Cars</h2>
+          <p class="motto">"Drive Your Dream."</p>
+        </div>
+
+        <div class="footer-links">
+          <h3><i class="fas fa-list"></i> Pages</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact">
+          <h3><i class="fas fa-headset"></i> Contact</h3>
+          <ul>
+            <li>
+              <a href="https://wa.me/256700000000" target="_blank"
+                ><i class="fab fa-whatsapp"></i> WhatsApp</a
+              >
+            </li>
+            <li>
+              <a href="tel:+256700000000"
+                ><i class="fas fa-phone-alt"></i> Call Us</a
+              >
+            </li>
+            <li>
+              <a href="mailto:info@mcvidcars.com"
+                ><i class="fas fa-envelope"></i> Email</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Socials -->
+        <div class="footer-socials">
+          <h3><i class="fas fa-share-alt"></i> Follow Us</h3>
+          <ul>
+            <li>
+              <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-tiktok"></i> TikTok</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© <span id="year"></span> Mcvid Cars • All Rights Reserved</p>
+        <p>Website Developed by <strong>Tazon Inc.</strong></p>
+      </div>
+    </footer>
+
+    <script src="js/supabase.js"></script>
+    <script src="js/cars.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/edit-car.js"></script>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

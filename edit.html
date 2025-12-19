@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Cars | Mcvid Cars</title>
+    <script>
+      // Auth Check
+      if (localStorage.getItem("mcvid_admin_auth") !== "true") {
+        window.location.href = "login.html";
+      }
+    </script>
+    <link rel="icon" type="image/jpeg" href="images/favicon.jpg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icon Packs -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsiveness.css" />
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+      .edit-page {
+        max-width: 1400px;
+        margin: 120px auto 60px;
+        padding: 0 20px;
+      }
+
+      .edit-header {
+        margin-bottom: 40px;
+      }
+
+      .edit-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        font-family: var(--font-heading);
+      }
+
+      .search-bar {
+        max-width: 400px;
+        position: relative;
+      }
+
+      .search-bar input {
+        width: 100%;
+        padding: 14px 20px;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        background: #f9fafb;
+        transition: all 0.3s;
+      }
+
+      .search-bar input:focus {
+        outline: none;
+        border-color: #0ea5e9;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+      }
+
+      .edit-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 24px;
+        margin-top: 30px;
+      }
+
+      .edit-car-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .edit-car-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      }
+
+      .edit-card-image {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/10;
+        overflow: hidden;
+      }
+
+      .edit-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .edit-price-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: white;
+        color: #0ea5e9;
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.85rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .edit-year-badge {
+        position: absolute;
+        bottom: 15px;
+        left: 15px;
+        background: rgba(0, 0, 0, 0.6);
+        color: white;
+        padding: 4px 12px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+
+      .edit-card-body {
+        padding: 20px;
+      }
+
+      .edit-car-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: #1a1a1a;
+      }
+
+      .edit-badges {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 15px;
+      }
+
+      .edit-status-badge {
+        background: #ecfdf5;
+        color: #059669;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .edit-status-badge.sold {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+
+      .edit-type-badge {
+        background: #f3f4f6;
+        color: #4b5563;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+      }
+
+      .edit-specs {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-top: 1px solid #f3f4f6;
+        margin-bottom: 15px;
+      }
+
+      .edit-spec-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.8rem;
+        color: #6b7280;
+      }
+
+      .edit-spec-item i {
+        font-size: 0.9rem;
+      }
+
+      .edit-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .edit-btn {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+      }
+
+      .btn-edit {
+        background: #1a1a1a;
+        color: white;
+      }
+
+      .btn-edit:hover {
+        background: #333;
+      }
+
+      .btn-delete {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+
+      .btn-delete:hover {
+        background: #fecaca;
+      }
+
+      .btn-available {
+        background: #d1fae5;
+        color: #059669;
+      }
+
+      .btn-available:hover {
+        background: #a7f3d0;
+      }
+
+      .btn-sold {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+
+      .btn-sold:hover {
+        background: #fecaca;
+      }
+
+      .no-results {
+        text-align: center;
+        padding: 60px 20px;
+        color: #6b7280;
+      }
+
+      @media (max-width: 768px) {
+        .edit-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="navbar" id="navbar">
+      <div class="menu-btn" id="menuBtn">
+        <i class="ri-menu-line menu-icon"></i>
+        <span class="menu-text">MENU</span>
+      </div>
+
+      <div class="nav-logo">
+        <img
+          src="images/modern-logo.svg"
+          alt="Car Logo"
+          class="nav-brand-icon"
+        />
+        Mcvid Cars
+      </div>
+
+      <div class="close-btn" id="closeBtn"><i class="ri-close-line"></i></div>
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+
+    <nav class="side-menu" id="sideMenu">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="catalog.html">Catalog</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="login.html">Admin</a></li>
+      </ul>
+    </nav>
+
+    <!-- EDIT PAGE -->
+    <div class="edit-page">
+      <a
+        href="admin.html"
+        style="
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          color: #0ea5e9;
+          text-decoration: none;
+          margin-bottom: 20px;
+          font-weight: 500;
+        "
+      >
+        <i class="ri-arrow-left-line"></i> Back to Dashboard
+      </a>
+
+      <div class="edit-header">
+        <h1>Edit A Car</h1>
+        <div class="search-bar">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search by name, brand, year, color..."
+          />
+        </div>
+      </div>
+
+      <div class="edit-grid" id="editGrid">
+        <!-- Cars will be loaded here -->
+      </div>
+
+      <div class="no-results" id="noResults" style="display: none">
+        <i class="ri-search-line" style="font-size: 3rem; opacity: 0.3"></i>
+        <p>No cars found matching your search.</p>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-container">
+        <div class="footer-brand">
+          <h2><i class="fas fa-car-side"></i> Mcvid Cars</h2>
+          <p class="motto">"Drive Your Dream."</p>
+        </div>
+
+        <div class="footer-links">
+          <h3><i class="fas fa-list"></i> Pages</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-contact">
+          <h3><i class="fas fa-headset"></i> Contact</h3>
+          <ul>
+            <li>
+              <a href="https://wa.me/256700000000" target="_blank"
+                ><i class="fab fa-whatsapp"></i> WhatsApp</a
+              >
+            </li>
+            <li>
+              <a href="tel:+256700000000"
+                ><i class="fas fa-phone-alt"></i> Call Us</a
+              >
+            </li>
+            <li>
+              <a href="mailto:info@mcvidcars.com"
+                ><i class="fas fa-envelope"></i> Email</a
+              >
+            </li>
+          </ul>
+        </div>
+
+        <!-- Socials -->
+        <div class="footer-socials">
+          <h3><i class="fas fa-share-alt"></i> Follow Us</h3>
+          <ul>
+            <li>
+              <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+            </li>
+            <li>
+              <a href="#"><i class="fab fa-tiktok"></i> TikTok</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© <span id="year"></span> Mcvid Cars • All Rights Reserved</p>
+        <p>Website Developed by <strong>Tazon Inc.</strong></p>
+      </div>
+    </footer>
+
+    <script src="js/supabase.js"></script>
+    <script src="js/cars.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/edit.js"></script>
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

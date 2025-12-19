@@ -20,8 +20,11 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/responsiveness.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsiveness.css" />
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
 
   <body>
@@ -47,8 +50,8 @@
         <li style="--i: 2"><a href="catalog.html">Catalog</a></li>
         <li style="--i: 3"><a href="about.html">About</a></li>
         <li style="--i: 4"><a href="contact.html">Contact</a></li>
-        -
-        
+        <li style="--i: 5"><a href="login.html">Admin</a></li>
+      </ul>
     </nav>
     <main class="details-page">
       <a href="catalog.html" class="back-button">
@@ -62,23 +65,6 @@
 
           <div id="thumbContainer" class="thumbs"></div>
           
-          <!-- BANNERS -->
-          <div class="banner daily-grind">
-            <div class="banner-content">
-              <h4>ADVERTISEMENT</h4>
-              <h2>Daily Grind Podcasts</h2>
-              <p>Tune in to our daily podcasts about matters that matter.</p>
-            </div>
-            <button><a href="https://youtube.com/@dg-kmss?si=UJ3td_HQK2ouT-dx">Go To Channel</a></button>
-          </div>
-          
-          <div class="banner tazon">
-            <div class="banner-content">
-              <h4>SPONSORED | WEBSITE CRAFTED BY</h4>
-              <h2>Tazon Incorporation</h2>
-              <p>Modern websites for car dealers, startups & growing brands.</p>
-            </div>
-          </div>
         </div>
 
         <!-- RIGHT: DETAILS -->
@@ -124,7 +110,7 @@
     </div>
 
     <footer class="site-footer">
-      <div class="footer-container">
+      <div class="footer-container admin-footer-grid">
         <!-- Brand + Motto -->
         <div class="footer-brand">
           <h2><i class="fas fa-car-side"></i> Mcvid Cars</h2>
@@ -135,22 +121,10 @@
         <div class="footer-links">
           <h3><i class="fas fa-list"></i> Pages</h3>
           <ul>
-            <li>
-              <a href="index.html"><i class="fas fa-home"></i> Home</a>
-            </li>
-            <li>
-              <a href="catalog.html"><i class="fas fa-th"></i> Catalog</a>
-            </li>
-            <li>
-              <a href="about.html"
-                ><i class="fas fa-info-circle"></i> About Us</a
-              >
-            </li>
-            <li>
-              <a href="contact.html"
-                ><i class="fas fa-envelope-open-text"></i> Contact</a
-              >
-            </li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
           </ul>
         </div>
 
@@ -158,41 +132,14 @@
         <div class="footer-contact">
           <h3><i class="fas fa-headset"></i> Contact</h3>
           <ul>
-            <li>
-              <a href="https://wa.me/256700000000" target="_blank">
-                <i class="fab fa-whatsapp"></i> WhatsApp
-              </a>
-            </li>
-            <li>
-              <a href="tel:+256700000000">
-                <i class="fas fa-phone-alt"></i> Call Us
-              </a>
-            </li>
-            <li>
-              <a href="mailto:info@mcvidcars.com">
-                <i class="fas fa-envelope"></i> Email
-              </a>
-            </li>
+            <li><a href="https://wa.me/256700000000" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a></li>
+            <li><a href="tel:+256700000000"><i class="fas fa-phone-alt"></i> Call Us</a></li>
+            <li><a href="mailto:info@mcvidcars.com"><i class="fas fa-envelope"></i> Email</a></li>
           </ul>
         </div>
 
-        <!-- Socials -->
-        <div class="footer-socials">
-          <h3><i class="fas fa-share-alt"></i> Follow Us</h3>
-          <ul>
-            <li>
-              <a href="#"><i class="fab fa-facebook-f"></i> Facebook</a>
-            </li>
-            <li>
-              <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
-            </li>
-            <li>
-              <a href="#"><i class="fab fa-tiktok"></i> TikTok</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-
+        <!-- BANNERS -->
+      
       <div class="footer-bottom">
         <p>© <span id="year"></span> Mcvid Cars • All Rights Reserved</p>
         <p>Website Developed by <strong>Tazon Inc.</strong></p>
@@ -203,8 +150,9 @@
       document.getElementById("year").textContent = new Date().getFullYear();
     </script>
     IPTS -->
-    <script src="../js/cars.js"></script>
-    <script src="../js/main.js"></script>
-    <script src="../js/details.js"></script>
+    <script src="js/supabase.js"></script>
+    <script src="js/cars.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/details.js"></script>
   </body>
 </html>
