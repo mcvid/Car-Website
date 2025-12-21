@@ -41,7 +41,7 @@ My dream job is to become a **Software Engineer at Google**, working on innovati
 
 ## 📫 Connect With Me
 
-- **Email:** macherinaveed4@gmail.com -**Instagram:**@mcvid657
+- **Email:** macherinaveed4@gmail.com -**Instagram:**https://www.instagram.com/mcvid657/
 
 ---
 
