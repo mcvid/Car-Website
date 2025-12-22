@@ -42,8 +42,8 @@ button,
 .navbar {
   width: 100%;
   height: 70px;
-  background: var(--black);
-  color: var(--white);
+  background: var(--white);
+  color: var(--black);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,7 +55,7 @@ button,
 }
 
 .navbar.scrolled {
-  background: rgba(0, 0, 0, 0.95);
+  background: var(--white);
 }
 
 .menu-btn {
@@ -1805,8 +1805,8 @@ textarea {
 .catalog-hero {
   text-align: center;
   padding: 90px 20px 60px; /* Adjusted for 70px navbar */
-  background: #111;
-  color: white;
+  background: var(--white);
+  color: (--black);
 }
 
 .catalog-grid {
