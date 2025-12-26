@@ -42,7 +42,8 @@ button,
 .navbar {
   width: 100%;
   height: 70px;
-  background: var(--white);
+  background: linear-gradient(180deg, #ffffff 0%, #f7f9fa 100%);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   color: var(--black);
   display: flex;
   align-items: center;
@@ -1805,8 +1806,8 @@ textarea {
 .catalog-hero {
   text-align: center;
   padding: 90px 20px 60px; /* Adjusted for 70px navbar */
-  background: var(--white);
-  color: (--black);
+  background: #f0fdf4; /* Light Green Background */
+  color: #1a1a1a;
 }
 
 .catalog-grid {
@@ -1865,4 +1866,144 @@ textarea {
 
 .view-details:hover {
   background: #0044cc;
+}
+
+/* 
+========================================
+CATALOG FILTER SIDEBAR 
+========================================
+*/
+
+/* 1. Wrapper to hold Sidebar + Grid */
+.catalog-section {
+  padding: 40px 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.catalog-content-wrapper {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* 2. Filter Sidebar */
+.filter-sidebar {
+  width: 280px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Soft shadow */
+  padding: 25px;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 100px; /* Sticky when scrolling */
+}
+
+/* Header */
+.filter-header h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+}
+
+/* Input Groups */
+.filter-group {
+  margin-bottom: 20px;
+}
+
+/* Text Inputs & Selects */
+.filter-input,
+.filter-select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px; /* Slightly rounded */
+  font-size: 0.95rem;
+  color: #374151;
+  background: #f9fafb; /* Light grey bg */
+  outline: none;
+  transition: all 0.2s;
+  font-family: var(--font-body);
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  border-color: #0ea5e9;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+/* Price Row */
+.price-row {
+  display: flex;
+  gap: 10px;
+}
+
+/* Apply Button */
+.apply-btn {
+  width: 100%;
+  background: #10b981; /* Green color from image */
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 30px; /* Pill shape */
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.apply-btn:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* 3. Catalog Grid */
+.catalog-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+/* RESPONSIVE CATALOG */
+@media (max-width: 900px) {
+  .catalog-content-wrapper {
+    flex-direction: column;
+  }
+
+  .filter-sidebar {
+    width: 100%;
+    position: relative;
+    top: 0;
+    margin-bottom: 30px;
+  }
+}
+
+/* GLOBAL BACK BUTTON */
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #1a1a1a;
+  text-decoration: none;
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.back-button:hover {
+  color: #0055ff;
+}
+
+.back-button i {
+  font-size: 1.1rem;
 }

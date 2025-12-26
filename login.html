@@ -220,45 +220,26 @@
         </p>
       </form>
 
-      <a href="index.html" class="back-home">
-        <i class="ri-arrow-left-s-line"></i> Back to Website
+      <a href="#" onclick="goBack(event)" class="back-home">
+        <i class="ri-arrow-left-s-line"></i> Back
       </a>
     </div>
 
     <script>
-      const loginForm = document.getElementById("loginForm");
-      const emailInput = document.getElementById("email");
-      const passwordInput = document.getElementById("password");
-      const errorMsg = document.getElementById("errorMsg");
-
-      // Set credentials
-      const ALLOWED_EMAIL = "macherinaveed4@gmail.com";
-      const ALLOWED_PASSWORD = "0751371252mac";
-
-      loginForm.addEventListener("submit", (e) => {
+      function goBack(e) {
         e.preventDefault();
-
         if (
-          emailInput.value === ALLOWED_EMAIL &&
-          passwordInput.value === ALLOWED_PASSWORD
+          document.referrer &&
+          document.referrer.indexOf(window.location.host) !== -1
         ) {
-          localStorage.setItem("mcvid_admin_auth", "true");
-          window.location.href = "admin.html";
+          history.back();
         } else {
-          errorMsg.style.display = "block";
-          passwordInput.value = "";
-          passwordInput.focus();
-
-          setTimeout(() => {
-            errorMsg.style.display = "none";
-          }, 3000);
+          window.location.href = "index.html";
         }
-      });
-
-      // Clear auth on load if it was just a manual refresh
-      if (window.location.search.includes("logout")) {
-        localStorage.removeItem("mcvid_admin_auth");
       }
     </script>
+
+    <script src="js/login.js"></script>
+    <!-- login.js will handle credential verification via a serverless endpoint -->
   </body>
 </html>

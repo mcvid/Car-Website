@@ -64,15 +64,94 @@
         <li style="--i: 5"><a href="login.html">Admin</a></li>
       </ul>
     </nav>
+
+    <script>
+      function goBack(e) {
+        e.preventDefault();
+        if (
+          document.referrer &&
+          document.referrer.indexOf(window.location.host) !== -1
+        ) {
+          history.back();
+        } else {
+          window.location.href = "index.html";
+        }
+      }
+    </script>
     <section class="catalog-hero">
-      <h1>Find Your Perfect Car</h1>
-      <p>Browse through our collection of premium vehicles.</p>
-      <hr class="cat" />
+      <div style="text-align: left; max-width: 1200px; margin: 0 auto 20px">
+        <a href="#" onclick="goBack(event)" class="back-button">
+          <i class="fas fa-arrow-left"></i> Back
+        </a>
+      </div>
+      <h1>Cars Showcase</h1>
+      <p>
+        Unsure of how to place an order?
+        <a href="about.html" style="text-decoration: underline; color: inherit"
+          >Learn how it works</a
+        >
+      </p>
+      <!-- <hr class="cat" /> -->
     </section>
 
-    <!-- CATALOG GRID -->
-    <section class="catalog">
-      <div id="catalogContainer" class="catalog-grid"></div>
+    <!-- CATALOG CONTAINER (Sidebar + Grid) -->
+    <section class="catalog-section">
+      <div class="catalog-content-wrapper">
+        <!-- FILTER SIDEBAR -->
+        <aside class="filter-sidebar">
+          <div class="filter-header">
+            <h3>Filters</h3>
+          </div>
+
+          <div class="filter-group">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search by model or title"
+              class="filter-input"
+            />
+          </div>
+
+          <div class="filter-group">
+            <select id="brandSelect" class="filter-select">
+              <option value="">All Brands</option>
+              <!-- Populated by JS -->
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <select id="fuelSelect" class="filter-select">
+              <option value="">All Fuel Types</option>
+              <option value="Petrol">Petrol</option>
+              <option value="Diesel">Diesel</option>
+              <option value="Hybrid">Hybrid</option>
+              <option value="Electric">Electric</option>
+            </select>
+          </div>
+
+          <div class="filter-group price-row">
+            <input
+              type="number"
+              id="minPriceInput"
+              placeholder="Min Price"
+              class="filter-input"
+            />
+            <input
+              type="number"
+              id="maxPriceInput"
+              placeholder="Max Price"
+              class="filter-input"
+            />
+          </div>
+
+          <button id="applyFiltersBtn" class="apply-btn">
+            Apply Filters <i class="fas fa-arrow-right"></i>
+          </button>
+        </aside>
+
+        <!-- CATALOG GRID -->
+        <div id="catalogContainer" class="catalog-grid"></div>
+      </div>
     </section>
 
     <script src="js/supabase.js"></script>

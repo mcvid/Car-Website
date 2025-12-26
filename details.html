@@ -54,9 +54,19 @@
       </ul>
     </nav>
     <main class="details-page">
-      <a href="catalog.html" class="back-button">
-  <i class="fas fa-arrow-left"></i> Back to Catalog
-</a>
+      <a href="#" onclick="goBack(event)" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back
+      </a>
+      <script>
+        function goBack(e) {
+            e.preventDefault();
+            if (document.referrer && document.referrer.indexOf(window.location.host) !== -1) {
+                history.back();
+            } else {
+                window.location.href = 'catalog.html';
+            }
+        }
+      </script>
 
       <section class="details-container">
         <!-- LEFT: IMAGE GALLERY -->
@@ -64,6 +74,17 @@
           <img id="mainImage" class="main-image" src="" alt="Car Image" />
 
           <div id="thumbContainer" class="thumbs"></div>
+          
+          <!-- SIMILAR CARS SECTION -->
+          <section class="similar-cars-section">
+            <div class="similar-header">
+              <h2>Similar Cars</h2>
+              <div class="line"></div>
+            </div>
+            <div id="similarCarsContainer" class="cars-container">
+              <!-- JS populates this -->
+            </div>
+          </section>
           
         </div>
 
@@ -99,6 +120,7 @@
             >
           </div>
         </div>
+      </section>
       </section>
     </main>
 

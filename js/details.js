@@ -156,6 +156,90 @@ function renderCarDetails(car) {
   ).href = `mailto:info@mcvidcars.com?subject=${encodeURIComponent(
     car.name + " Inquiry"
   )}`;
+  // Start loading similar cars
+  loadSimilarCars(car);
+}
+
+async function loadSimilarCars(currentCar) {
+  const container = document.getElementById("similarCarsContainer");
+  if (!container) return;
+
+  // 1. Get all cars (Static + Supabase)
+  let allCars = [...cars];
+
+  try {
+    const { data: supabaseCars, error } = await supabase
+      .from("cars")
+      .select("*");
+
+    if (error) throw error;
+    if (supabaseCars) {
+      // Remove static cars that are edited in Supabase
+      const editedIds = supabaseCars
+        .filter((c) => c.original_id)
+        .map((c) => c.original_id);
+      allCars = allCars.filter((c) => !editedIds.includes(c.id));
+      allCars = [...allCars, ...supabaseCars];
+    }
+  } catch (err) {
+    console.error("Error fetching similar cars", err);
+  }
+
+  // 2. Filter Logic: Same Type OR Same Brand, exclude current ID
+  const type = currentCar.body_type || currentCar.type;
+  const brand = currentCar.name.split(" ")[0];
+
+  let similar = allCars.filter((c) => {
+    if (c.id === currentCar.id) return false; // Exclude self
+
+    const cType = c.body_type || c.type;
+    const cBrand = c.name.split(" ")[0];
+
+    // Priority: Same Type
+    if (type && cType && type.toLowerCase() === cType.toLowerCase())
+      return true;
+
+    // Fallback: Same Brand
+    if (brand && cBrand && brand.toLowerCase() === cBrand.toLowerCase())
+      return true;
+
+    return false;
+  });
+
+  // Limit to 4 cars
+  similar = similar.slice(0, 4);
+
+  // 3. Render
+  container.innerHTML = "";
+  if (similar.length === 0) {
+    container.innerHTML = "<p>No similar cars found.</p>";
+    return;
+  }
+
+  similar.forEach((car) => {
+    const card = document.createElement("div");
+    card.classList.add("car-card");
+
+    const ugxPrice = `${car.price_ugx.toLocaleString()} UGX`;
+    const isSold = car.status === "sold";
+    const statusText = isSold ? "Sold" : "Available";
+    const statusClass = isSold ? "status-badge sold" : "status-badge";
+
+    card.innerHTML = `
+      <div class="card-media">
+        <img src="${car.images[0]}" alt="${car.name}" />
+         <div class="price-badge">${ugxPrice}</div>
+      </div>
+      <div class="card-body">
+        <h3 class="car-name">${car.name}</h3>
+        <div class="badge-row">
+            <span class="${statusClass}">${statusText}</span>
+        </div>
+        <a href="details.html?id=${car.id}" class="details-btn">View Details</a>
+      </div>
+    `;
+    container.appendChild(card);
+  });
 }
 
 // Start loading
