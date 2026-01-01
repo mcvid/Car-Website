@@ -7,12 +7,23 @@
   }
 
   /* GRID REPAIRS */
+  /* GRID REPAIRS */
   .why-choose-grid,
   .cars-container,
   .catalog-grid,
   .hero-stats-row {
-    grid-template-columns: 1fr; /* Force 1 column stack */
+    grid-template-columns: repeat(2, 1fr); /* Allow 2 columns on tablet */
     display: grid;
+    gap: 15px;
+  }
+
+  @media (max-width: 600px) {
+    .why-choose-grid,
+    .cars-container,
+    .catalog-grid,
+    .hero-stats-row {
+      grid-template-columns: 1fr; /* Stack on mobile */
+    }
   }
 
   .hero-stats-row {
@@ -21,6 +32,11 @@
   }
 
   /* HERO TEXT */
+  .hero-content {
+    text-align: center;
+    padding: 0 15px;
+  }
+
   .hero-content h1 {
     font-size: 2rem;
   }

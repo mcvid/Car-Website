@@ -1,8 +1,12 @@
 :root {
-  --black: #0d0d0d;
-  --white: #ffffff;
+  /* DARK MODE DEFAULT */
+  --black: #ffffff; /* Inverted logical names for easier switch */
+  --white: #0d0d0d;
   --blue: #0055ff;
-  --grey: #f5f5f7;
+  --grey: #1a1a1a;
+  --text-main: #ffffff;
+  --text-muted: #aaaaaa;
+
   --font-heading: "Outfit", sans-serif;
   --font-body: "Inter", sans-serif;
 }
@@ -17,10 +21,10 @@
 body {
   font-family: var(--font-body);
   background: var(--white);
-  color: #1a1a1a;
+  color: var(--text-main);
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased; /* Premium rendering */
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
   width: 100%;
 }
 
@@ -305,6 +309,43 @@ button,
 }
 
 /* MOBILE RESPONSIVE */
+@media (max-width: 900px) {
+  .navbar {
+    padding: 15px 20px;
+    flex-wrap: nowrap; /* Prevent wrapping */
+  }
+
+  .nav-logo {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    white-space: nowrap; /* Keep logo text on one line */
+  }
+
+  .currency-toggle {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    margin-right: 5px;
+  }
+
+  .menu-btn {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-logo img {
+    height: 30px; /* Slightly smaller logo on very small screens */
+  }
+  .nav-logo {
+    font-size: 1rem;
+  }
+}
+
 @media (max-width: 768px) {
   .hero {
     height: 75vh;
@@ -415,8 +456,9 @@ button,
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-  transition: 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  will-change: transform;
 }
 
 .car-card:hover {
@@ -2006,4 +2048,141 @@ CATALOG FILTER SIDEBAR
 
 .back-button i {
   font-size: 1.1rem;
+}
+
+/* NEW BADGE STYLE */
+.status-badge.new {
+  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 10px rgba(255, 75, 43, 0.4);
+  animation: pulseBadge 2s infinite;
+}
+
+@keyframes pulseBadge {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 75, 43, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(255, 75, 43, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 75, 43, 0);
+  }
+}
+
+/* DETAILS PAGE RESPONSIVENESS */
+@media (max-width: 992px) {
+  .details-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .details-gallery {
+    width: 100%;
+  }
+
+  .details-info {
+    width: 100%;
+  }
+
+  .main-image {
+    height: auto;
+    max-height: 400px;
+  }
+}
+
+@media (max-width: 600px) {
+  .details-page {
+    padding-top: 20px;
+    padding-bottom: 100px; /* Space for floating bar */
+  }
+
+  .back-button {
+    margin-left: 20px;
+    margin-top: 10px;
+  }
+
+  .details-container {
+    padding: 0 20px;
+    margin-top: 20px;
+  }
+
+  .main-image {
+    border-radius: 12px;
+  }
+
+  /* Thumbnails scrollable horizontally */
+  .thumbs {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding-bottom: 10px;
+    justify-content: flex-start;
+  }
+
+  .thumb {
+    width: 80px;
+    height: 60px;
+    flex-shrink: 0;
+  }
+
+  .details-info h1 {
+    font-size: 1.8rem;
+  }
+
+  .contact-buttons {
+    display: none; /* Hide desktop buttons, show floating bar */
+  }
+
+  /* Floating Contact Bar */
+  .floating-contact {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 50px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+  }
+
+  .floating-contact a {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  #floatWA {
+    background: #25d366;
+  }
+  #floatCall {
+    background: #007aff;
+  }
+  #floatMail {
+    background: #1a1a1a;
+  }
+}
+
+@media (min-width: 601px) {
+  .floating-contact {
+    display: none;
+  }
 }

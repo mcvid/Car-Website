@@ -26,6 +26,7 @@
 
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/responsiveness.css" />
+    <link rel="stylesheet" href="css/extra-features.css" />
 
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -129,19 +130,49 @@
             </select>
           </div>
 
-          <div class="filter-group price-row">
+          <div class="filter-group">
+            <label class="filter-label">Price Range (UGX)</label>
+            <div class="range-container">
+              <input
+                type="range"
+                id="priceRange"
+                min="0"
+                max="500000000"
+                step="1000000"
+                value="500000000"
+                class="filter-range"
+              />
+              <div class="range-values">
+                <span>0</span>
+                <span id="priceValue">Max</span>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="filter-group"
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              cursor: pointer;
+            "
+          >
             <input
-              type="number"
-              id="minPriceInput"
-              placeholder="Min Price"
-              class="filter-input"
+              type="checkbox"
+              id="wishlistFilter"
+              style="width: 18px; height: 18px; cursor: pointer"
             />
-            <input
-              type="number"
-              id="maxPriceInput"
-              placeholder="Max Price"
-              class="filter-input"
-            />
+            <label
+              for="wishlistFilter"
+              style="
+                font-size: 0.95rem;
+                font-weight: 500;
+                cursor: pointer;
+                color: #1a1a1a;
+              "
+              >Show Favorites Only</label
+            >
           </div>
 
           <button id="applyFiltersBtn" class="apply-btn">
@@ -240,6 +271,7 @@
       document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 
-    <script src="../js/main.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/features.js"></script>
   </body>
 </html>

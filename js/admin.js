@@ -110,6 +110,7 @@ carForm.addEventListener("submit", async (e) => {
       color: document.getElementById("colorInput").value,
       location: document.getElementById("locationInput").value,
       body_type: document.getElementById("bodyTypeSelect").value,
+      video_url: document.getElementById("videoUrlInput").value,
       owner: "Mcvid",
       features: features,
       images: imageUrls,

@@ -331,6 +331,37 @@
         </div>
 
         <div class="form-group full-width">
+          <label for="videoUrl">Video URL (YouTube)</label>
+          <input
+            type="text"
+            id="videoUrl"
+            placeholder="https://www.youtube.com/watch?v=..."
+          />
+        </div>
+
+        <div class="form-group full-width">
+          <label>Manage Images</label>
+          <div style="margin-bottom: 10px; color: #666; font-size: 0.9rem">
+            Upload new images or remove existing ones.
+          </div>
+
+          <input
+            type="file"
+            id="imageInput"
+            multiple
+            accept="image/*"
+            style="margin-bottom: 15px"
+          />
+
+          <div
+            id="imagePreviewContainer"
+            style="display: flex; gap: 10px; flex-wrap: wrap"
+          >
+            <!-- Existing images will be rendered here -->
+          </div>
+        </div>
+
+        <div class="form-group full-width">
           <label for="features">Features (Comma separated)</label>
           <textarea id="features" rows="3"></textarea>
         </div>

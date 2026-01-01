@@ -158,6 +158,55 @@ function renderCarDetails(car) {
   )}`;
   // Start loading similar cars
   loadSimilarCars(car);
+
+  // Render Video Tour if exists
+  if (window.renderVideoTour && car.video_url) {
+    window.renderVideoTour(car.video_url, "videoContainer");
+  }
+
+  // Init Loan Calculator
+  if (window.initLoanCalculator) {
+    window.initLoanCalculator(car.price_ugx);
+  }
+
+  // SEO: Structured Data
+  injectStructuredData(car);
+}
+
+function injectStructuredData(car) {
+  const script = document.createElement("script");
+  script.type = "application/ld+json";
+  const json = {
+    "@context": "https://schema.org",
+    "@type": "Car",
+    name: car.name,
+    image: car.images[0],
+    description: `Buy a ${car.name} at Mcvid Cars. Condition: ${car.condition}, Mileage: ${car.mileage}.`,
+    brand: {
+      "@type": "Brand",
+      name: car.name.split(" ")[0],
+    },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "UGX",
+      price: car.price_ugx,
+      availability:
+        car.status === "sold"
+          ? "https://schema.org/OutOfStock"
+          : "https://schema.org/InStock",
+      url: window.location.href,
+    },
+    vehicleEngine: {
+      "@type": "EngineSpecification",
+      engineType: car.engine,
+    },
+    mileageFromOdometer: {
+      "@type": "QuantitativeValue",
+      value: car.mileage,
+    },
+  };
+  script.text = JSON.stringify(json);
+  document.head.appendChild(script);
 }
 
 async function loadSimilarCars(currentCar) {

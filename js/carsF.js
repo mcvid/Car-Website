@@ -44,6 +44,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   container.innerHTML = ""; // Clear loader if any
 
+  // Use DocumentFragment for better performance
+  const fragment = document.createDocumentFragment();
+
   allFeaturedCars.forEach((car) => {
     const card = document.createElement("div");
     card.classList.add("car-card");
@@ -59,9 +62,16 @@ document.addEventListener("DOMContentLoaded", async () => {
     const statusText = isSold ? "Sold" : "Available";
     const statusClass = isSold ? "status-badge sold" : "status-badge";
 
+    // New Badge Logic
+    const currentYear = new Date().getFullYear();
+    const isNew = car.year >= currentYear - 1; // 2024 or newer
+    const newBadge = isNew ? `<span class="status-badge new">New</span>` : "";
+
     card.innerHTML = `
       <div class="card-media">
-        <img src="${car.images[0]}" alt="${car.name}" class="car-img" />
+        <img src="${car.images[0]}" alt="${
+      car.name
+    }" class="car-img" loading="lazy" />
         <div class="price-badge">${ugxPrice}</div>
         <div class="year-badge">${car.year}</div>
       </div>
@@ -71,6 +81,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         
         <div class="badge-row">
           <span class="${statusClass}">${statusText}</span>
+          ${newBadge}
           <span class="type-badge">${car.body_type || car.type || "SUV"}</span>
         </div>
 
@@ -93,6 +104,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       </div>
     `;
 
-    container.appendChild(card);
+    fragment.appendChild(card);
   });
+
+  container.appendChild(fragment);
 });

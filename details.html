@@ -22,6 +22,7 @@
     />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/responsiveness.css" />
+    <link rel="stylesheet" href="css/extra-features.css" />
 
     <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -103,9 +104,15 @@
             <tbody id="specTable"></tbody>
           </table>
 
+          <!-- LOAN CALCULATOR -->
+          <div id="loanCalculatorContainer"></div>
+
           <!-- FEATURES -->
           <h3>Features</h3>
           <ul id="featuresList" class="features-list"></ul>
+
+          <!-- VIDEO TOUR -->
+          <div id="videoContainer"></div>
 
           <!-- CONTACT BUTTONS -->
           <div class="contact-buttons">
@@ -118,6 +125,9 @@
             <a id="emailBtn" class="contact-btnEm"
               ><i class="ri-mail-fill"></i> Email</a
             >
+            <a href="#" class="contact-btnCa" style="background: #1a1a1a; margin-top: 10px;" onclick="const carName = document.getElementById('carName').innerText || 'This Vehicle'; openTestDriveModal(carName); return false;">
+                <i class="ri-calendar-check-line"></i> Book Test Drive
+            </a>
           </div>
         </div>
       </section>
@@ -171,10 +181,10 @@
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
     </script>
-    IPTS -->
     <script src="js/supabase.js"></script>
     <script src="js/cars.js"></script>
     <script src="js/main.js"></script>
     <script src="js/details.js"></script>
+    <script src="js/features.js"></script>
   </body>
 </html>

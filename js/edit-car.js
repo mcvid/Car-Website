@@ -59,14 +59,13 @@ async function loadCarData() {
 }
 
 // Populate form with car data
-function populateForm(car) {
-  console.log("populateForm called with:", car);
-  console.log("Form elements exist:", {
-    carName: !!document.getElementById("carName"),
-    brand: !!document.getElementById("brand"),
-    priceUsd: !!document.getElementById("priceUsd"),
-  });
+// Image State
+let currentImages = []; // URLs
+let newImageFiles = []; // File objects
 
+// Populate form with car data
+function populateForm(car) {
+  // ... existing fields ...
   document.getElementById("carName").value = car.name || "";
   document.getElementById("brand").value = car.brand || "";
   document.getElementById("priceUsd").value = car.price_usd || "";
@@ -84,6 +83,9 @@ function populateForm(car) {
   document.getElementById("location").value = car.location || "";
   document.getElementById("bodyType").value = car.body_type || car.type || "";
 
+  // Video URL
+  document.getElementById("videoUrl").value = car.video_url || "";
+
   // Features
   if (car.features && Array.isArray(car.features)) {
     document.getElementById("features").value = car.features.join(", ");
@@ -91,6 +93,98 @@ function populateForm(car) {
 
   // Featured checkbox
   document.getElementById("featured").checked = car.featured || false;
+
+  // Images
+  currentImages = car.images || [];
+  renderImagePreviews();
+}
+
+// Render Images (Existing + New)
+function renderImagePreviews() {
+  const container = document.getElementById("imagePreviewContainer");
+  container.innerHTML = "";
+
+  // 1. Existing Images
+  currentImages.forEach((url, index) => {
+    const div = document.createElement("div");
+    div.style.position = "relative";
+    div.style.width = "100px";
+    div.style.height = "80px";
+
+    // Check if it's a URL or base64 (for simplicity we assume URL)
+    div.innerHTML = `
+      <img src="${url}" style="width:100%; height:100%; object-fit:cover; border-radius:8px; border:1px solid #ddd;">
+      <button type="button" onclick="removeExistingImage(${index})" style="position:absolute; top:-5px; right:-5px; background:red; color:white; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer;">&times;</button>
+    `;
+    container.appendChild(div);
+  });
+
+  // 2. New Files (Preview)
+  newImageFiles.forEach((file, index) => {
+    const div = document.createElement("div");
+    div.style.position = "relative";
+    div.style.width = "100px";
+    div.style.height = "80px";
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      div.innerHTML = `
+          <img src="${e.target.result}" style="width:100%; height:100%; object-fit:cover; border-radius:8px; border:2px solid #0055ff;">
+          <button type="button" onclick="removeNewFile(${index})" style="position:absolute; top:-5px; right:-5px; background:red; color:white; border:none; border-radius:50%; width:20px; height:20px; cursor:pointer;">&times;</button>
+        `;
+    };
+    reader.readAsDataURL(file);
+    container.appendChild(div);
+  });
+}
+
+// Global functions for inline onclick
+window.removeExistingImage = function (index) {
+  currentImages.splice(index, 1);
+  renderImagePreviews();
+};
+
+window.removeNewFile = function (index) {
+  newImageFiles.splice(index, 1);
+  renderImagePreviews();
+};
+
+// Handle File Selection
+const imageInput = document.getElementById("imageInput");
+if (imageInput) {
+  imageInput.addEventListener("change", (e) => {
+    const files = Array.from(e.target.files);
+    newImageFiles = [...newImageFiles, ...files];
+    renderImagePreviews();
+    imageInput.value = ""; // Reset input so same file can be selected again
+  });
+}
+
+// UPLOAD FUNCTION
+async function uploadImagesToSupabase() {
+  const uploadedUrls = [];
+  if (newImageFiles.length === 0) return [];
+
+  for (const file of newImageFiles) {
+    const fileName = `uploads/${Date.now()}_${file.name.replace(/\s+/g, "-")}`;
+    const { data, error } = await supabase.storage
+      .from("car-images")
+      .upload(fileName, file);
+
+    if (error) {
+      console.error("Upload error:", error);
+      alert(`Failed to upload ${file.name}`);
+      continue;
+    }
+
+    // Get Public URL
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("car-images").getPublicUrl(fileName);
+
+    uploadedUrls.push(publicUrl);
+  }
+  return uploadedUrls;
 }
 
 // Handle form submission
@@ -101,6 +195,12 @@ updateForm.addEventListener("submit", async (e) => {
   updateBtn.textContent = "Updating...";
 
   try {
+    // 1. Upload NEW images (if any)
+    const newUrls = await uploadImagesToSupabase();
+
+    // 2. Combine with remaining existing images
+    const finalImages = [...currentImages, ...newUrls];
+
     // Collect features
     const features = document
       .getElementById("features")
@@ -126,10 +226,11 @@ updateForm.addEventListener("submit", async (e) => {
       color: document.getElementById("color").value,
       location: document.getElementById("location").value,
       body_type: document.getElementById("bodyType").value,
+      video_url: document.getElementById("videoUrl").value, // NEW
       owner: currentCar.owner || "Mcvid",
       features: features,
       featured: document.getElementById("featured").checked,
-      images: currentCar.images || [],
+      images: finalImages, // UPDATED
     };
 
     // Check if this is a static car (doesn't have UUID format)
@@ -175,13 +276,13 @@ updateForm.addEventListener("submit", async (e) => {
       successAlert.classList.remove("show");
     }, 3000);
 
-    // Redirect back to edit page after a delay
+    // Redirect
     setTimeout(() => {
       window.location.href = "edit.html";
     }, 2000);
   } catch (error) {
     console.error("Error updating car:", error.message);
-    alert("Error updating car: " + error.message);
+    alert("Error: " + error.message);
   } finally {
     updateBtn.disabled = false;
     updateBtn.textContent = "Update Car Details";
