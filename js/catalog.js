@@ -181,4 +181,74 @@ inputs.forEach((input) => {
   }
 });
 
+// NEW: SMART URL FILTERING
+function applyInitialFiltersFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const brand = params.get("brand");
+  const type = params.get("type");
+  const fuel = params.get("fuel");
+  const sort = params.get("sort");
+
+  let needsFilter = false;
+
+  if (brand && brandSelect) {
+    // Wait for populate to finish? Populate runs sync after fetch.
+    // We might need to run this AFTER loadCatalog finishes.
+    // We'll call this function inside loadCatalog.
+  }
+}
+
+// Updated Load Catalog to include URL filtering
+async function loadCatalog() {
+  if (!catalogContainer) return;
+  let initialCars = [...cars];
+  try {
+    const { data: supabaseCars, error } = await supabase
+      .from("cars")
+      .select("*");
+    if (error) throw error;
+    if (supabaseCars) {
+      const editedStaticCarIds = supabaseCars
+        .filter((car) => car.original_id)
+        .map((car) => car.original_id);
+      initialCars = initialCars.filter(
+        (car) => !editedStaticCarIds.includes(car.id)
+      );
+      initialCars = [...initialCars, ...supabaseCars];
+    }
+  } catch (error) {
+    console.error("Error fetching Supabase cars:", error.message);
+  }
+  allCarsData = initialCars;
+  populateFilters(allCarsData);
+
+  // APPLY URL FILTERS
+  const params = new URLSearchParams(window.location.search);
+  const brand = params.get("brand");
+  const type = params.get("type");
+  const fuel = params.get("fuel");
+
+  if (brand && brandSelect) {
+    // Find matching option (case insensitive)
+    for (let i = 0; i < brandSelect.options.length; i++) {
+      if (brandSelect.options[i].value.toLowerCase() === brand.toLowerCase()) {
+        brandSelect.selectedIndex = i;
+        break;
+      }
+    }
+  }
+  if (fuel && fuelSelect)
+    fuelSelect.value =
+      fuel.charAt(0).toUpperCase() + fuel.slice(1).toLowerCase(); // Capitalize
+  if (type) {
+    // Type is searched via Search Input in this simple implementation
+    // Or we can add a Type Select. For now, let's dump it in Search.
+    if (searchInput) searchInput.value = type;
+  }
+
+  // Initial Filter Run
+  filterCars();
+}
+
+// Call loadCatalog directly
 loadCatalog();
